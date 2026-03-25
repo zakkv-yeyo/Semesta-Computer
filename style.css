@@ -1,0 +1,557 @@
+/* --- 1. VARIABLE & THEMES (Abstract Liquid Mesh) --- */
+:root {
+    /* Light Mode*/
+    --glass-bg: rgba(255, 255, 255, 0.75), transparent 35%;
+    --glass-border: rgba(255, 255, 255, 0.5);
+    --primary-blue: #0066cc;
+    --text-dark: #1d1d1f;
+    --text-dim: #48484a;
+    --bg-main: #e8edee;
+    --bg-image: url('d:\PKL SEMESTA COMPUTER/background/lmbg.jpg');
+    --spring: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+    --liquid-gradient:
+        radial-gradient(at 0% 0%, rgba(186, 204, 234, 0.3) 0px, transparent 80%),
+        radial-gradient(at 100% 0%, rgba(210, 196, 230, 0.3) 0px, transparent 80%),
+        radial-gradient(at 100% 100%, rgba(230, 200, 215, 0.3) 0px, transparent 80%),
+        radial-gradient(at 0% 100%, rgba(225, 220, 190, 0.3) 0px, transparent 80%),
+        radial-gradient(at 50% 50%, rgba(200, 220, 235, 0.3) 0px, transparent 80%);
+
+    /* UNIVERSAL ANIMATION VARIABLE (Efek Membal) */
+    --transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+[data-theme="dark"] {
+    /* Dark Mode*/
+    --glass-bg: rgba(28, 28, 30, 0.65), transparent 35%;
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --primary-blue: #0a84ff;
+    --text-dark: #f5f5f7;
+    --text-dim: #a1a1a6;
+    --bg-main: #000000;
+    --bg-image: url('d:\PKL SEMESTA COMPUTER/background/dmbg.jpg');
+
+    --liquid-gradient:
+        radial-gradient(at 0% 0%, rgba(30, 27, 75, 0.8) 0px, transparent 80%),
+        radial-gradient(at 100% 0%, rgba(49, 46, 129, 0.7) 0px, transparent 80%),
+        radial-gradient(at 100% 100%, rgba(76, 29, 149, 0.7) 0px, transparent 80%),
+        radial-gradient(at 0% 100%, rgba(17, 24, 39, 0.8) 0px, transparent 80%),
+        radial-gradient(at 50% 50%, rgba(88, 28, 135, 0.6) 0px, transparent 80%);
+}
+
+/* --- 2. GLOBAL STYLES --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-dark);
+    line-height: 1.6;
+    transition: var(--transition);
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background-image: var(--bg-image);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    /* Blur dikurangi menjadi 10px-20px agar tekstur gambar tetap terlihat sedikit */
+    filter: blur(15px);
+    z-index: -1;
+    transition: background-image 0.8s ease;
+
+    /* Animasi pulse dikecilkan agar tidak merusak tekstur gambar */
+    animation: pulseBackground 15s infinite alternate ease-in-out;
+}
+
+@keyframes pulseBackground {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(1.1);
+    }
+}
+
+.section-padding {
+    padding: 80px 10%;
+}
+
+/* --- 3. COMPONENTS --- */
+.glass-panel,
+nav,
+.bottom-nav {
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+}
+
+.glass-panel {
+    border-radius: 32px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.03);
+}
+
+.badge {
+    background: var(--primary-blue);
+    color: white;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    display: inline-block;
+}
+
+/* --- 4. NAVIGATION (Updated) --- */
+nav {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 1000px;
+    padding: 12px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    background: var(--glass-bg);
+    backdrop-filter: blur(25px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+}
+
+.logo {
+    font-weight: 800;
+    color: var(--primary-blue);
+    letter-spacing: -1px;
+    font-size: 1.1rem;
+}
+
+.nav-right-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-dark);
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+/* --- 5. HERO SECTION --- */
+.hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 10%;
+}
+
+.hero h1 {
+    font-size: clamp(2.5rem, 8vw, 4.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    letter-spacing: -0.04em;
+}
+
+.hero p {
+    color: var(--text-dim);
+    max-width: 650px;
+    margin-bottom: 40px;
+    font-size: 1.15rem;
+}
+
+.hero-btns {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* --- 6. BUTTONS & INTERACTION (Universal Animation) --- */
+.btn-primary,
+.btn-secondary,
+.card,
+.social-item,
+.bottom-nav a,
+.theme-switch {
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.btn-primary {
+    padding: 14px 32px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-block;
+    background: var(--primary-blue);
+    color: white;
+    box-shadow: 0 10px 20px rgba(0, 102, 204, 0.2);
+}
+
+.btn-secondary {
+    padding: 14px 32px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-block;
+    border: 1px solid var(--primary-blue);
+    color: var(--primary-blue);
+}
+
+/* Desktop Hover */
+@media (hover: hover) {
+
+    .btn-primary:hover,
+    .btn-secondary:hover {
+        transform: translateY(-3px) scale(1.02);
+        opacity: 0.9;
+    }
+
+    .card:hover {
+        transform: translateY(-10px) scale(1.02);
+    }
+
+    .social-item:hover {
+        color: var(--primary-blue);
+        transform: scale(1.1);
+    }
+
+    .theme-switch:hover {
+        transform: scale(1.2) rotate(15deg);
+    }
+}
+
+/* Mobile/Tablet Active (Tap Animation) */
+.btn-primary:active,
+.btn-secondary:active,
+.card:active,
+.social-item:active,
+.bottom-nav a:active {
+    transform: scale(0.92);
+    opacity: 0.8;
+}
+
+.wa-green {
+    background: #25D366;
+    border: none;
+    box-shadow: 0 10px 20px rgba(37, 211, 102, 0.2);
+    color: white;
+}
+
+.theme-switch {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+/* --- 7. ABOUT & LOCATION --- */
+.about-container,
+.location-container {
+    padding: 60px;
+    text-align: center;
+}
+
+.about-text h2,
+#location h2 {
+    font-size: 2.5rem;
+    margin: 20px 0;
+    letter-spacing: -0.02em;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    border-top: 1px solid var(--glass-border);
+    margin-top: 40px;
+    padding-top: 40px;
+}
+
+.stat-item h4 {
+    font-size: 2.2rem;
+    color: var(--primary-blue);
+    margin-bottom: 5px;
+}
+
+/* --- 8. SERVICES GRID --- */
+.section-heading {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2.2rem;
+    letter-spacing: -1px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.card {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    min-height: 250px;
+}
+
+.icon {
+    font-size: 2.8rem;
+    margin-bottom: 20px;
+}
+
+.card h3 {
+    margin-bottom: 12px;
+    font-size: 1.5rem;
+    letter-spacing: -0.5px;
+}
+
+.card p {
+    color: var(--text-dim);
+    font-size: 1rem;
+}
+
+/* --- 9. CTA SECTION & EMAIL STYLE --- */
+.cta-section {
+    padding-bottom: 80px;
+    display: flex;
+    justify-content: center;
+}
+
+.main-cta {
+    padding: 70px 40px;
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.main-cta h2 {
+    font-size: 2.6rem;
+    margin-bottom: 25px;
+    letter-spacing: -1px;
+}
+
+.main-cta p {
+    color: var(--text-dim);
+    max-width: 600px;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+}
+
+.email-btn {
+    background: var(--text-dark) !important;
+    color: var(--bg-main) !important;
+    margin-top: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .email-btn {
+    background: var(--primary-blue) !important;
+    color: white !important;
+}
+
+/* --- 10. FOOTER SOSIAL MEDIA --- */
+.social-footer {
+    padding: 60px 10%;
+    padding-bottom: 120px;
+    text-align: center;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 25px 0;
+    flex-wrap: wrap;
+}
+
+.social-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--text-dark);
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.social-item svg {
+    width: 24px;
+    height: 24px;
+}
+
+.copyright {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    margin-top: 20px;
+}
+
+/* --- 11. MOBILE NAVIGATION --- */
+.bottom-nav {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    left: 5%;
+    right: 5%;
+    height: 70px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(30px) saturate(150%);
+    -webkit-backdrop-filter: blur(30px) saturate(150%);
+    border-radius: 25px;
+    border: 1px solid var(--glass-border);
+    z-index: 2000;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    animation: navAppear 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes navAppear {
+    from {
+        transform: translateY(100px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.bottom-nav a {
+    text-decoration: none;
+    color: var(--text-dark);
+    font-size: 0.85rem;
+    font-weight: 700;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 10px;
+    border-radius: 15px;
+}
+
+/* --- 12. RESPONSIVE QUERIES --- */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+
+    .bottom-nav {
+        display: flex;
+    }
+
+    nav {
+        width: 92%;
+        padding: 10px 20px;
+    }
+
+    .theme-switch {
+        font-size: 1.4rem;
+        padding: 5px;
+    }
+
+    .social-links {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .main-cta h2 {
+        font-size: 2rem;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero h1 {
+        font-size: 2.8rem;
+    }
+
+    .hero-btns {
+        flex-direction: column;
+        width: 100%;
+        max-width: 320px;
+    }
+}
+
+/* --- HELPER CLASSES FOR JS ANIMATIONS --- */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.2, 1, 0.3, 1);
+    will-change: transform, opacity;
+}
+
+.reveal-visible {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+}
+
+/* Staggered Delay untuk Kartu Layanan agar muncul bergantian */
+.grid .card:nth-child(1) {
+    transition-delay: 0.1s;
+}
+
+.grid .card:nth-child(2) {
+    transition-delay: 0.2s;
+}
+
+.grid .card:nth-child(3) {
+    transition-delay: 0.3s;
+}
+
+.grid .card:nth-child(4) {
+    transition-delay: 0.4s;
+}
+
+.grid .card:nth-child(5) {
+    transition-delay: 0.5s;
+}
+
+.grid .card:nth-child(6) {
+    transition-delay: 0.6s;
+}
+
+/* Optimasi performa: Matikan tilt pada panel saat scrolling berat */
+.glass-panel {
+    transition: transform 0.2s ease-out;
+}
